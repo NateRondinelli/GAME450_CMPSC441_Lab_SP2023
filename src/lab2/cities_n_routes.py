@@ -56,4 +56,4 @@ if __name__ == '__main__':
         print(f'{city_names[i]}: {city}')
     print('Routes:')
     for i, route in enumerate(routes):
-        print(f'{i}: {[route[0]]} to {[route[1]]}')
+        print(f'{i}: {route[0]} to {route[1]}')
