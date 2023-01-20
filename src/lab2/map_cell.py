@@ -23,3 +23,15 @@ Your task is to write a function that can translate from strings of length 2 to 
 
 For example, calling get_row_col("A3") should return the tuple (2, 0) because A3 corresponds to the row at index 2 and column at index 0in the board.
 '''
+
+def get_row_col(inp):
+    row = ord(inp[0])-65
+    col = (int)(inp[1])-1
+    return [row,col]
+
+
+
+if __name__ == '__main__':
+    while True: 
+        inp = input("Enter Guess: ")
+        print(get_row_col(inp))
