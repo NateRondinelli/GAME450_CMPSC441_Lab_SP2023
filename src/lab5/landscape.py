@@ -2,12 +2,16 @@ import matplotlib.pyplot as plt
 from perlin_noise import PerlinNoise
 import numpy as np
 
-def get_elevation(size):
+def get_elevation(size): # size = (640,480)
     xpix, ypix = size
     elevation = np.array([])
     '''Play around with perlin noise to get a better looking landscape (This is required for the lab)'''
 
-    return elevation
+    noise = PerlinNoise(octaves=3)
+    noise2 = PerlinNoise(octaves=1)
+    elevation = np.array([[noise(noise2([i/xpix,j/ypix])) for j in range(ypix)] for i in range(xpix)])
+
+    return elevation # elevation = (640, 480)
 
 def elevation_to_rgba(elevation):
     xpix, ypix = np.array(elevation).shape

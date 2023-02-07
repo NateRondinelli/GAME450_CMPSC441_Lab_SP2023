@@ -29,23 +29,35 @@ from lab2.cities_n_routes import get_randomly_spread_cities, get_routes
 # TODO: Demo blittable surface helper function
 
 ''' Create helper functions here '''
+def get_surface():
+    landscape = get_landscape(size)
+    print("Created a landscape of size", landscape.shape)
+    pygame_surface = pygame.surfarray.make_surface(landscape[:, :, :3]) 
+    return pygame_surface
+
+def draw_cities(surface,cityList):
+    for city in cityList:
+        pygame.draw.circle(surface,color="orange",center=city,radius=10)
+
+def draw_10_routes(surface, routeList, locations_dict):
+    for route in enumerate(routeList):
+        pygame.draw.line(surface,color="black",start_pos=locations_dict[route[1][0]],end_pos=locations_dict[route[1][1]],width=3)
+
 
 if __name__ == "__main__":
     pygame.init()
     size = width, height = 640, 480
     black = 1, 1, 1
-
     screen = pygame.display.set_mode(size)
-    landscape = get_landscape(size)
-    print("Created a landscape of size", landscape.shape)
-    pygame_surface = pygame.surfarray.make_surface(landscape[:, :, :3]) 
+
+    pygame_surface = get_surface()
 
     city_names = ['Morkomasto', 'Morathrad', 'Eregailin', 'Corathrad', 'Eregarta',
                   'Numensari', 'Rhunkadi', 'Londathrad', 'Baernlad', 'Forthyr']
-    city_locations = [] 
-    routes = []
 
     ''' Setup cities and routes in here'''
+    city_locations = get_randomly_spread_cities(size,10)
+    routes = get_routes(city_names)
 
     city_locations_dict = {name: location for name, location in zip(city_names, city_locations)}
     random.shuffle(routes)
@@ -60,7 +72,9 @@ if __name__ == "__main__":
         screen.blit(pygame_surface, (0, 0))
 
         ''' draw cities '''
+        draw_cities(pygame_surface, city_locations)
 
         ''' draw first 10 routes '''
+        draw_10_routes(pygame_surface, routes, city_locations_dict)
 
         pygame.display.flip()
