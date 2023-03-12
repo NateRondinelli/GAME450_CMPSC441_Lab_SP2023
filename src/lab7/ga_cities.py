@@ -19,7 +19,7 @@ from pathlib import Path
 
 sys.path.append(str((Path(__file__) / ".." / ".." / "..").resolve().absolute()))
 
-from src.lab5.landscape import elevation_to_rgba
+from src.lab5.landscape import elevation_to_rgba, get_elevation
 
 
 def game_fitness(cities, idx, elevation, size):
@@ -30,6 +30,35 @@ def game_fitness(cities, idx, elevation, size):
     2. The cities should have a realistic distribution across the landscape
     3. The cities may also not be on top of mountains or on top of each other
     """
+
+    solu = solution_to_cities(cities,size)
+    #increase fitness if the city location is within appropriate elevation range
+    for s in solu:
+        if(elevation[s[0]][s[1]] >= .2 and elevation[s[0]][s[1]] <= .8):
+            fitness+=0.25
+        if(elevation[s[0]][s[1]] >= .4 and elevation[s[0]][s[1]] <= .6):
+            fitness+=0.5
+
+    #decrease fitness if city locations are close to each other
+    for city1 in cities:
+        for city2 in cities:
+            if(abs(city1 - city2) < 60):
+                fitness-=0.005
+            if(abs(city1 - city2) < 40):
+                fitness-=0.01
+            if(abs(city1 - city2) < 25):
+                fitness-=0.05
+            if(abs(city1 - city2) < 10):
+                fitness-=0.15
+            if(abs(city1%100 - city2%100) < 60):
+                fitness-=0.005
+            if(abs(city1%100 - city2%100) < 40):
+                fitness-=0.01
+            if(abs(city1%100 - city2%100) < 25):
+                fitness-=0.05
+            if(abs(city1%100 - city2%100) < 10):
+                fitness-=0.15
+
     return fitness
 
 
@@ -99,7 +128,7 @@ def show_cities(cities, landscape_pic, cmap="gist_earth"):
     It takes a list of cities and a landscape picture, and plots the cities on top of the landscape
 
     :param cities: a list of (x, y) tuples
-    :param landscape_pic: a 2D array of the landscape
+    :param landscape_pic: a 3D array of the landscape
     :param cmap: the color map to use for the landscape picture, defaults to gist_earth (optional)
     """
     cities = np.array(cities)
@@ -115,6 +144,8 @@ if __name__ == "__main__":
     n_cities = 10
     elevation = []
     """ initialize elevation here from your previous code"""
+    elevation = get_elevation(size)
+
     # normalize landscape
     elevation = np.array(elevation)
     elevation = (elevation - elevation.min()) / (elevation.max() - elevation.min())
