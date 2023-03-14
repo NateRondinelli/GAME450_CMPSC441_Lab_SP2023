@@ -4,13 +4,15 @@ The dataset is available at src/lab8/heart.csv
 Train a model to predict whether a person has heart disease or not and test its performance.
 You can usually improve the model by normalizing the input data. Try that and see if it improves the performance. 
 """
+from sklearn import preprocessing
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
 import numpy as np
 
-data = pd.read_csv("src/lab8/heart.csv")
+data = pd.read_csv("src/lab10/heart.csv")
 
 # Transform the categorical variables into dummy variables.
 print(data.head())
@@ -26,12 +28,27 @@ x_train, x_test, y_train, y_test = train_test_split(
 
 """ Train a sklearn model here. """
 
-sklearn_model = None
+sklearn_model = KNeighborsClassifier(n_neighbors=12)
+sklearn_model.fit(x_train,y_train)
 
 # Accuracy
 print("Accuracy of model: {}\n".format(sklearn_model.score(x_test, y_test)))
 
 
 """ Improve the model by normalizing the input data. """
+x_train = preprocessing.MinMaxScaler().fit_transform(x_train)
+x_test = preprocessing.MinMaxScaler().fit_transform(x_test)
+
+sklearn_model.fit(x_train,y_train)
+
+"""
+i=1
+x=0
+while( x < 0.895 ):
+    sklearn_model = KNeighborsClassifier(n_neighbors=i)
+    sklearn_model.fit(x_train,y_train)
+    x = sklearn_model.score(x_test, y_test)
+    i += 2
+"""
 
 print("Accuracy of improved model: {}\n".format(sklearn_model.score(x_test, y_test)))
