@@ -27,3 +27,4 @@ class PyGameHumanAIPlayer(CombatPlayer):
                     pygame.quit()
                 self.weapon = random.randint(0,2)
                 return self.weapon
+            
