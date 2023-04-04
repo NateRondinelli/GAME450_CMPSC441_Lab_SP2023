@@ -11,3 +11,20 @@ Note that observation/state is a tuple of the form (player1_health, player2_heal
 Action is simply the weapon selected by the player.
 Reward is the reward for the player for that turn.
 '''
+
+from lab11.turn_combat import Combat
+
+
+def run_episode(player1,player2):
+    episode = Combat()
+    rewards = []
+
+    while not episode.gameOver:
+        #state = (player1.health,player2.health)
+        #action = (player1.weapon,player2.weapon)
+        #reward = player1.damage
+        #rewards.append(state,action,reward)
+        rewards.append(run_turn(episode,player1,player2))
+
+
+    return rewards
