@@ -12,6 +12,7 @@ Action is simply the weapon selected by the player.
 Reward is the reward for the player for that turn.
 '''
 
+from lab11.pygame_combat import run_turn
 from lab11.turn_combat import Combat
 
 
@@ -20,11 +21,10 @@ def run_episode(player1,player2):
     rewards = []
 
     while not episode.gameOver:
-        #state = (player1.health,player2.health)
-        #action = (player1.weapon,player2.weapon)
-        #reward = player1.damage
-        #rewards.append(state,action,reward)
-        rewards.append(run_turn(episode,player1,player2))
+        state = (player1.health,player2.health)
+        action = (player1.weapon,player2.weapon)
+        reward = run_turn(player1,player2)
 
+        rewards.append(state,action,reward)
 
     return rewards
