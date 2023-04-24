@@ -1,10 +1,13 @@
 import pygame
+import sys
 from pathlib import Path
 
-from sprite import Sprite
-from turn_combat import CombatPlayer, Combat
-from pygame_ai_player import PyGameAICombatPlayer
-from pygame_human_player import PyGameHumanCombatPlayer
+sys.path.append(str((Path(__file__) / ".." / "..").resolve().absolute()))
+
+from lab11.sprite import Sprite
+from lab11.turn_combat import CombatPlayer, Combat
+from lab11.pygame_ai_player import PyGameAICombatPlayer
+from lab11.pygame_human_player import PyGameHumanCombatPlayer
 
 AI_SPRITE_PATH = Path("assets/ai.png")
 
@@ -37,7 +40,8 @@ def draw_combat_on_window(combat_surface, screen, player_sprite, opponent_sprite
 
 def run_turn(currentGame, player, opponent):
     players = [player, opponent]
-    states = list(reversed([(player.health, player.weapon) for player in players]))
+    state = (player.health, opponent.health)
+    states = list([state, tuple(reversed(state))])
     for current_player, state in zip(players, states):
         current_player.selectAction(state)
 
@@ -47,7 +51,7 @@ def run_turn(currentGame, player, opponent):
     print("%s's health = %d" % (opponent.name, opponent.health))
     reward = currentGame.checkWin(player, opponent)
     return reward
-
+    #return ((player.health,opponent.health),player.weapon,reward)
 
 def run_pygame_combat(combat_surface, screen, player_sprite):
     currentGame = Combat()

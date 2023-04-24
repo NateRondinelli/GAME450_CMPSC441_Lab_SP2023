@@ -1,5 +1,12 @@
 import pygame
+from pathlib import Path
+import sys
+sys.path.append(str((Path(__file__) / ".." / "..").resolve().absolute()))
 from lab11.turn_combat import CombatPlayer
+
+
+
+
 
 
 class PyGameHumanPlayer:
