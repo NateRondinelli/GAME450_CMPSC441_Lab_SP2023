@@ -95,8 +95,6 @@ if __name__ == "__main__":
     routes = routes[:10]
 
     player_sprite = Sprite(sprite_path, cities[start_city])
-
-    #player = PyGameHumanPlayer()
     
     player = PyGameAIPlayer()
 
